@@ -13,10 +13,10 @@ const HideableArea: React.FC<HideableAreaProps> = ({
   hiddenContent,
 }) => {
   if (isContentVisible) {
-    return <>{hiddenContent || <Text>****</Text>}</>
+    return <>{children}</>
   }
 
-  return <>{children}</>
+  return <>{hiddenContent || <Text>****</Text>}</>
 }
 
 export default HideableArea

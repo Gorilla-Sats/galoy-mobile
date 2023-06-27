@@ -92,7 +92,7 @@ export const HomeScreen: React.FC = () => {
   const { data: { hideBalance } = {} } = useHideBalanceQuery()
   const { data: { hasPromptedSetDefaultAccount } = {} } =
     useHasPromptedSetDefaultAccountQuery()
-  const isBalanceVisible = hideBalance ?? false
+  const isBalanceVisible = !hideBalance ?? true
   const [setDefaultAccountModalVisible, setSetDefaultAccountModalVisible] =
     React.useState(false)
   const toggleSetDefaultAccountModal = () =>
@@ -149,7 +149,7 @@ export const HomeScreen: React.FC = () => {
 
   const [modalVisible, setModalVisible] = React.useState(false)
   const [isStablesatModalVisible, setIsStablesatModalVisible] = React.useState(false)
-  const [isContentVisible, setIsContentVisible] = React.useState(false)
+  const [isContentVisible, setIsContentVisible] = React.useState(true)
 
   React.useEffect(() => {
     setIsContentVisible(isBalanceVisible)
