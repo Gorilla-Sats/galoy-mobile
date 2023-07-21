@@ -2,7 +2,7 @@ import { bech32 } from "bech32"
 
 // TODO: import in other tests? or a from global files imported in all tests?
 
-// Note: import explicitly to use the types shiped with jest.
+// Note: import explicitly to use the types shipped with jest.
 import { it } from "@jest/globals"
 
 const lnurl1 =
