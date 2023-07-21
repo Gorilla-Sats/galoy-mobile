@@ -92,7 +92,7 @@
     "react": "18.2.0",
     "react-content-loader": "^6.2.0",
     "react-dom": "^18.0.0",
-    "react-native": "^0.71.8",
+    "react-native": "0.72.3",
     "react-native-bootsplash": "^4.6.0",
     "react-native-config": "^1.5.1",
     "react-native-countdown-circle-timer": "^3.2.1",
@@ -149,7 +149,10 @@
     "@graphql-inspector/cli": "^3.4.19",
     "@graphql-tools/graphql-tag-pluck": "^7.4.6",
     "@react-native-community/datetimepicker": "^6.7.3",
-    "@react-native-community/eslint-config": "^3.2.0",
+    "@react-native/eslint-config": "^0.72.2",
+    "@react-native/metro-config": "^0.72.9",
+    "metro-react-native-babel-preset": "0.76.7",
+    "@tsconfig/react-native": "^3.0.0",
     "@react-native-community/slider": "^4.4.2",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-backgrounds": "6.5.16",
@@ -173,8 +176,6 @@
     "@testing-library/jest-native": "^5.4.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^11.5.1",
-    "@tsconfig/react-native": "^2.0.3",
-    "@types/jest": "^29.5.1",
     "@types/lodash.merge": "^4.6.7",
     "@types/react": "^18.2.6",
     "@types/react-native": "0.71.1",
@@ -246,5 +247,8 @@
       "pattern": "**/*.stories.tsx",
       "outputFile": "./.storybook/storyLoader.ts"
     }
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
