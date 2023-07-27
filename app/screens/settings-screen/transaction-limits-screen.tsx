@@ -1,5 +1,5 @@
 import React from "react"
-import { ActivityIndicator, Button, Pressable, View } from "react-native"
+import { ActivityIndicator, Alert, Button, Linking, View } from "react-native"
 import { LocalizedString } from "typesafe-i18n"
 
 import { Screen } from "@app/components/screen"
@@ -11,13 +11,11 @@ import { useDisplayCurrency } from "@app/hooks/use-display-currency"
 import { useAppConfig, usePriceConversion } from "@app/hooks"
 import { DisplayCurrency, toUsdMoneyAmount } from "@app/types/amounts"
 import { makeStyles, Text, useTheme } from "@rneui/themed"
-import ContactModal, {
-  SupportChannels,
-} from "@app/components/contact-modal/contact-modal"
-import { GaloyIcon } from "@app/components/atomic/galoy-icon"
 import { UpgradeAccountModal } from "@app/components/upgrade-account-modal"
 import { AccountLevel, useLevel } from "@app/graphql/level-context"
 import { GaloyPrimaryButton } from "@app/components/atomic/galoy-primary-button"
+import { sleep } from "@app/utils/sleep"
+import { InAppBrowser } from "react-native-inappbrowser-reborn"
 
 const useStyles = makeStyles(({ colors }) => ({
   limitWrapper: {
@@ -134,22 +132,60 @@ export const TransactionLimitsScreen = () => {
   const { name: bankName } = appConfig.galoyInstance
   const { currentLevel } = useLevel()
 
-  const [isContactModalVisible, setIsContactModalVisible] = React.useState(false)
   const [isUpgradeAccountModalVisible, setIsUpgradeAccountModalVisible] =
     React.useState(false)
-
-  const toggleIsContactModalVisible = () => {
-    setIsContactModalVisible(!isContactModalVisible)
-  }
 
   const toggleIsUpgradeAccountModalVisible = () => {
     setIsUpgradeAccountModalVisible(!isUpgradeAccountModalVisible)
   }
 
-  const messageBody = LL.TransactionLimitsScreen.contactUsMessageBody({
-    bankName,
-  })
-  const messageSubject = LL.TransactionLimitsScreen.contactUsMessageSubject()
+  const openKycBrowser = async () => {
+    try {
+      const url = "http://localhost:5173/"
+      if (await InAppBrowser.isAvailable()) {
+        const result = await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: "cancel",
+          preferredBarTintColor: "#453AA4",
+          preferredControlTintColor: "white",
+          readerMode: false,
+          animated: true,
+          modalPresentationStyle: "fullScreen",
+          modalTransitionStyle: "coverVertical",
+          modalEnabled: true,
+          enableBarCollapsing: false,
+          // Android Properties
+          showTitle: true,
+          toolbarColor: "#6200EE",
+          secondaryToolbarColor: "black",
+          navigationBarColor: "black",
+          navigationBarDividerColor: "white",
+          enableUrlBarHiding: true,
+          enableDefaultShare: true,
+          forceCloseOnRedirection: false,
+          // Specify full animation resource identifier(package:anim/name)
+          // or only resource name(in case of animation bundled with app).
+          animations: {
+            startEnter: "slide_in_right",
+            startExit: "slide_out_left",
+            endEnter: "slide_in_left",
+            endExit: "slide_out_right",
+          },
+          headers: {
+            "my-custom-header": "my custom header value",
+          },
+        })
+        await sleep(800)
+        Alert.alert(JSON.stringify(result))
+      } else Linking.openURL(url)
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(error.message)
+      } else {
+        Alert.alert("bip")
+      }
+    }
+  }
 
   if (error) {
     return (
@@ -226,31 +262,21 @@ export const TransactionLimitsScreen = () => {
           <TransactionLimitsPeriod key={index} {...data} />
         ))}
       </View>
-      {currentLevel === AccountLevel.Zero ? (
+      {currentLevel === AccountLevel.Zero && (
         <GaloyPrimaryButton
           title={LL.TransactionLimitsScreen.increaseLimits()}
-          onPress={toggleIsUpgradeAccountModalVisible}
+          onPress={() => {} /* FIXME */}
           containerStyle={styles.increaseLimitsButtonContainer}
         />
-      ) : (
-        <Pressable
-          style={styles.increaseLimitsContainer}
-          onPress={toggleIsContactModalVisible}
-        >
-          <Text style={styles.increaseLimitsText}>
-            {LL.TransactionLimitsScreen.contactSupportToPerformKyc()}
-          </Text>
-          <GaloyIcon name="question" size={20} color={styles.increaseLimitsText.color} />
-        </Pressable>
+      )}
+      {currentLevel === AccountLevel.One && (
+        <GaloyPrimaryButton
+          title={LL.TransactionLimitsScreen.increaseLimitsWithFullKYC()}
+          onPress={openKycBrowser}
+          containerStyle={styles.increaseLimitsButtonContainer}
+        />
       )}
 
-      <ContactModal
-        isVisible={isContactModalVisible}
-        toggleModal={toggleIsContactModalVisible}
-        messageBody={messageBody}
-        messageSubject={messageSubject}
-        supportChannelsToHide={[SupportChannels.StatusPage, SupportChannels.Telegram]}
-      />
       <UpgradeAccountModal
         isVisible={isUpgradeAccountModalVisible}
         closeModal={toggleIsUpgradeAccountModalVisible}
