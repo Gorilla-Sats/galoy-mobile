@@ -112,4 +112,5 @@ export type PrimaryStackParamList = {
   People: undefined
   Map: undefined
   Earn: undefined
+  Web: undefined
 }
