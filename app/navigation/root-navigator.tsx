@@ -77,6 +77,7 @@ import {
 import { CirclesDashboardScreen } from "@app/screens/people-screen/circles/circles-dashboard-screen"
 import { AllContactsScreen } from "@app/screens/people-screen/contacts/all-contacts"
 import { PeopleTabIcon } from "@app/screens/people-screen/tab-icon"
+import BuyLightningBitcoin from "@app/screens/buy-lightning-bitcoin/buy-lightning-bitcoin"
 
 const useStyles = makeStyles(({ colors }) => ({
   bottomNavigatorStyle: {
@@ -178,6 +179,13 @@ export const RootStack = () => {
         component={ReceiveScreen}
         options={{
           title: LL.ReceiveScreen.title(),
+        }}
+      />
+      <RootNavigator.Screen
+        name="buyLightningBitcoin"
+        component={BuyLightningBitcoin}
+        options={{
+          title: LL.HomeScreen.buy(),
         }}
       />
       <RootNavigator.Screen

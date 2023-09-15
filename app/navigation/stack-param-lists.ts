@@ -87,6 +87,7 @@ export type RootStackParamList = {
   totpRegistrationInitiate: undefined
   totpRegistrationValidate: { totpRegistrationId: string }
   totpLoginValidate: { authToken: string }
+  buyLightningBitcoin: undefined
 }
 
 export type PeopleStackParamList = {

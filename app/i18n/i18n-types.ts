@@ -1515,6 +1515,10 @@ type RootTranslation = {
 		 */
 		scan: string
 		/**
+		 * Buy
+		 */
+		buy: string
+		/**
 		 * A​n​ ​u​p​d​a​t​e​ ​i​s​ ​a​v​a​i​l​a​b​l​e​.​
 	​T​a​p​ ​t​o​ ​u​p​d​a​t​e​ ​n​o​w
 		 */
@@ -1811,6 +1815,12 @@ type RootTranslation = {
 		 * P​a​y​c​o​d​e​ ​/​ ​L​N​U​R​L
 		 */
 		payCodeOrLNURL: string
+	}
+	BuyLightningBitcoin: {
+		/**
+		 * Buy Lightning Bitcoin
+		 */
+		title: string
 	}
 	RedeemBitcoinScreen: {
 		/**
@@ -5210,6 +5220,10 @@ export type TranslationFunctions = {
 		 * Scan
 		 */
 		scan: () => LocalizedString
+		/**
+		 * Buy
+		 */
+		buy: () => LocalizedString
 		/**
 		 * An update is available.
 	Tap to update now

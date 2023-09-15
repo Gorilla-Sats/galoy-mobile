@@ -236,6 +236,7 @@ export const HomeScreen: React.FC = () => {
     | "sendBitcoinDestination"
     | "receiveBitcoin"
     | "transactionHistory"
+    | "buyLightningBitcoin"
   type IconNamesType = keyof typeof icons
 
   const buttons = [
@@ -253,6 +254,11 @@ export const HomeScreen: React.FC = () => {
       title: LL.HomeScreen.scan(),
       target: "scanningQRCode" as Target,
       icon: "qr-code" as IconNamesType,
+    },
+    {
+      title: LL.HomeScreen.buy(),
+      target: "buyLightningBitcoin" as Target,
+      icon: "dollar" as IconNamesType,
     },
   ]
 
@@ -442,9 +448,9 @@ const useStyles = makeStyles(({ colors }) => ({
   },
   button: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: "100%",
-    maxWidth: 74,
+    maxWidth: 50,
   },
   header: {
     flexDirection: "row",
